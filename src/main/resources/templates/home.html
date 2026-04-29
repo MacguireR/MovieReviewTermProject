@@ -2,5 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>home page</title>
-    <body>you are on the home page :]</body>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div>you are on the home page :]</div>
+</body>
 </html>
