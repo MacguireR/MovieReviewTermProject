@@ -1,7 +1,7 @@
 -- spring.sql.init.mode=always
--- put this is application.properties to make this auto-run
+-- put this in application.properties to make this auto-run
 -- spring.jpa.hibernate.ddl-auto=update needs to be changed to = none though
--- using IF NOT EXISTS in case we use the above mention auto-run
+-- using IF NOT EXISTS in case we use the above mentioned auto-run
 
 CREATE TABLE IF NOT EXISTS Genre (
     genreID INT PRIMARY KEY AUTO_INCREMENT,
@@ -13,9 +13,17 @@ CREATE TABLE IF NOT EXISTS Movie (
     movieID INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     releaseDate DATE,
-    director VARCHAR(255),
-    rating DECIMAL(3,1),
-    genreID INT,
+    tagline TEXT
+);
+
+-- SELECT AVG(rating) FROM Review WHERE movieID = ?
+-- this is for getting ratings
+
+CREATE TABLE IF NOT EXISTS MovieGenre (
+    movieID INT NOT NULL,
+    genreID INT NOT NULL,
+    PRIMARY KEY (movieID, genreID),
+    FOREIGN KEY (movieID) REFERENCES Movie(movieID),
     FOREIGN KEY (genreID) REFERENCES Genre(genreID)
 );
 
@@ -31,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Review (
     comment TEXT,
     date DATE NOT NULL,
     userID INT NOT NULL,
-    movieID  INT NOT NULL,
-    FOREIGN KEY (userID)  REFERENCES User(userID),
+    movieID INT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES User(userID),
     FOREIGN KEY (movieID) REFERENCES Movie(movieID)
 );

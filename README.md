@@ -1,16 +1,16 @@
 # NAME'M MOVIES
 
-Group Name: [GROUP NAME]
+Group: 12
 
 ---
 
 ## Team Members
 
-**[Member 1 Name]**
-- 
-
-**[Member 2 Name]**
-- 
+- Evan
+- Macguire
+- Nate
+- McKayla
+- Adam
 
 ---
 
@@ -47,11 +47,66 @@ Group Name: [GROUP NAME]
 
 ---
 
+## Database Schema
+
+```sql
+CREATE TABLE Genre (
+    genreID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT
+);
+
+CREATE TABLE Movie (
+    movieID INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    releaseDate DATE,
+    tagline TEXT
+);
+
+CREATE TABLE MovieGenre (
+    movieID INT NOT NULL,
+    genreID INT NOT NULL,
+    PRIMARY KEY (movieID, genreID),
+    FOREIGN KEY (movieID) REFERENCES Movie(movieID),
+    FOREIGN KEY (genreID) REFERENCES Genre(genreID)
+);
+
+CREATE TABLE User (
+    userID INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Review (
+    reviewID INT PRIMARY KEY AUTO_INCREMENT,
+    rating INT NOT NULL,
+    comment TEXT,
+    date DATE NOT NULL,
+    userID INT NOT NULL,
+    movieID INT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES User(userID),
+    FOREIGN KEY (movieID) REFERENCES Movie(movieID)
+);
+```
+
+- Movie rating is computed as `AVG(rating)` from the Review table — not stored directly.
+- SELECT AVG(rating) FROM Review WHERE movieID = ?
+- The above SQL query will get the average review for the desired movie.
+
+---
+
 ## How to Run
 
 1. Start the MySQL Docker container
-2. Run the schema: execute `ddl.sql` against `demodb`
-3. Load data: execute `data.sql` against `demodb`
+2. Run the schema (first time only):
+   ```bash
+   mysql -h 127.0.0.1 -P 33306 -u appuser -p demodb < src/main/resources/ddl.sql
+   ```
+3. Load movie/genre data (first time only):
+   ```bash
+   mysql -h 127.0.0.1 -P 33306 -u appuser -p demodb < src/main/resources/data.sql
+   ```
+   Password: `apppass`
 4. Start the app: `./mvnw spring-boot:run`
 5. Open `http://localhost:8080/login`
 
