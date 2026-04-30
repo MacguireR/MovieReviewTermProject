@@ -6,12 +6,18 @@
 <div th:fragment="header">
     <header>
         <div class="main">
-            Movie Finder
+            NAME'M MOVIES
         </div>
         <nav>
-            <a href="/Home" class="active">Home</a>
-            <a href="/login">Genres</a>
-            <a href="/login">Log Out</a>
+        <th:block th:if="${username != null}">
+            <a href="/home" class = "active">Home</a>
+            <a href="/genres">Genres</a>
+             <a href="/logout">Log Out</a>
+        </th:block>
+        <th:block th:if="${username == null}">
+            <a href="/home" class = "active">Home</a>
+            <a href="/login">Log In</a>
+        </th:block>
         </nav>
     </header>
 <div class = "header-accent"></div>

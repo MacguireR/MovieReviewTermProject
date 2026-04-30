@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class hashing {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(auth->auth.requestMatchers("/createAccount", "/login", "/home", "/css/**").permitAll().anyRequest().authenticated()).csrf(csrf -> csrf.disable());
+        http.authorizeHttpRequests(auth->auth.requestMatchers("/createAccount", "/login", "/home", "/css/**", "/logout").permitAll().anyRequest().authenticated()).csrf(csrf -> csrf.disable());
         return http.build();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -26,9 +27,8 @@ public class LoginController {
     public String processLogin(
         @RequestParam String username,
         @RequestParam String password,
-        Model model) {
-            String sql =
-            "SELECT password_hash FROM users WHERE username = ?";
+        Model model, HttpSession session) {
+            String sql = "SELECT password_hash FROM users WHERE username = ?";
             try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)
@@ -38,6 +38,7 @@ public class LoginController {
                 if (rs.next()) {
                     String storedHash = rs.getString("password_hash");
                     if(passwordEncoder.matches(password, storedHash)){
+                        session.setAttribute("username", username);
                         return "redirect:/home";
                     }
                 }
