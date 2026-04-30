@@ -113,19 +113,20 @@ CREATE TABLE Review (
 ---
 
 ## Submission Checklist
-
-- [ ] `prelim.pdf` — title, problem description, solution overview, ER diagram, technologies
-- [ ] `db_design.pdf` — ER model, ER-to-relation conversion, functional dependencies, normalization to BCNF/3NF
-- [ ] `ddl.sql` — all CREATE TABLE statements
-- [ ] `data.sql` — all INSERT statements to populate the demo database
-- [ ] `datasource.txt` — description and link to the TMDB dataset
-- [ ] `queries.sql` — all SQL queries used in the app with comments and URL paths
-- [ ] `perf.txt` — index creation statements, affected queries, timing before/after
-- [ ] `security.txt` — description of BCrypt password hashing approach
+X = done (definitely still double check)
+o = in progress, needs to be finished
+- [o] `prelim.pdf` — title, problem description, solution overview, ER diagram, technologies
+- [o] `db_design.pdf` — ER model, ER-to-relation conversion, functional dependencies, normalization to BCNF/3NF
+- [X] `ddl.sql` — all CREATE TABLE statements
+- [X] `data.sql` — all INSERT statements to populate the demo database
+- [o] `datasource.txt` — description and link to the TMDB dataset
+- [o] `queries.sql` — all SQL queries used in the app with comments and URL paths
+- [o] `perf.txt` — index creation statements, affected queries, timing before/after
+- [o] `security.txt` — description of BCrypt password hashing approach
 - [ ] Demo video
 - [ ] Working code
-- [ ] `readme.txt` (this file, plain text copy for submission)
-- [ ] Group member contribution form (signed)
+- [o] `readme.txt` (this file, plain text copy for submission)
+- [X] Group member contribution form (signed)
 
 ---
 
