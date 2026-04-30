@@ -1,0 +1,87 @@
+Title
+-----
+NAME'M MOVIES
+
+
+Problem and Domain
+------------------
+People often struggle to find movies they will enjoy and have no centralized
+place to read or write reviews from real users. This app addresses that by
+providing a platform where users can browse a large catalog of movies organized
+by genre and read or leave reviews with ratings.
+
+
+Solution and User Interfaces
+-----------------------------
+A Spring Boot web application backed by a MySQL database. Users can create an
+account, log in, browse movies by genre, view movie detail pages, and submit
+reviews with a rating and comment. Movie ratings are computed dynamically as
+the average of all user-submitted review ratings.
+
+User Interfaces:
+1. Login / Create Account   - /login, /createAccount
+2. Home page                - /home
+3. Genre list page          - /genres
+4. Movie list page          - /movies (filterable by genre)
+5. Movie detail page        - /movies/{id} (shows info, avg rating, all reviews)
+
+
+Technologies
+------------
+- Java 17
+- Spring Boot 4.0.6
+- Spring Security (BCrypt password hashing)
+- Spring JDBC with PreparedStatements (no ORM)
+- Thymeleaf (server-side templating)
+- MySQL 8 (Docker)
+- Maven
+- Dataset: TMDB 5000 Movies (Kaggle)
+
+
+ER Diagram (PlantUML)
+---------------------
+Paste the following into https://www.plantuml.com/plantuml/uml/ to render the diagram.
+
+@startuml
+entity User {
+    * userID : INT <<PK>>
+    --
+    username : VARCHAR(100)
+    password_hash : VARCHAR(255)
+}
+
+entity Movie {
+    * movieID : INT <<PK>>
+    --
+    title : VARCHAR(255)
+    releaseDate : DATE
+    tagline : TEXT
+}
+
+entity Genre {
+    * genreID : INT <<PK>>
+    --
+    name : VARCHAR(100)
+    description : TEXT
+}
+
+entity MovieGenre {
+    * movieID : INT <<FK>>
+    * genreID : INT <<FK>>
+}
+
+entity Review {
+    * reviewID : INT <<PK>>
+    --
+    rating : INT
+    comment : TEXT
+    date : DATE
+    userID : INT <<FK>>
+    movieID : INT <<FK>>
+}
+
+User ||--o{ Review : "writes"
+Movie ||--o{ Review : "has"
+Movie ||--o{ MovieGenre : "categorized by"
+Genre ||--o{ MovieGenre : "includes"
+@enduml

@@ -1,0 +1,22 @@
+Password Security Approach
+
+Passwords are never stored in plaintext. When a user creates an account, their
+password is hashed using BCrypt before being saved to the database.
+
+Implementation:
+- Library: Spring Security's BCryptPasswordEncoder
+- BCrypt automatically generates a unique random salt for each password and
+  incorporates it into the resulting hash string.
+- The hash stored in the User.password_hash column includes the algorithm
+  version, cost factor, salt, and hash — all in a single string.
+- On login, the entered password is verified against the stored hash using
+  BCryptPasswordEncoder.matches(), which extracts the salt from the stored hash
+  and re-hashes the input for comparison. The plaintext password is never
+  compared directly.
+
+Cost factor: default (10 rounds), providing a strong work factor against
+brute-force attacks.
+
+Relevant files:
+- src/main/java/com/example/demo/accountController.java (registration)
+- src/main/java/com/example/demo/LoginController.java (login verification)

@@ -1,0 +1,26 @@
+Data Source: TMDB 5000 Movie Dataset
+
+Source: Kaggle
+URL: https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata
+
+Description:
+The dataset was downloaded from Kaggle and contains metadata for approximately
+4800 movies sourced from The Movie Database (TMDB). The file used was
+tmdb_5000_movies.csv, which includes the following fields relevant to our app:
+title, genres, release_date, and tagline.
+
+The genres field in the CSV is stored as a JSON array containing genre id and name pairs. 
+
+A Python script (csv_importing/import_data.py) was written to parse
+this file, extract unique genres, and generate SQL INSERT statements for the
+Genre, Movie, and MovieGenre tables. 
+
+The script outputs data.sql which is used to populate the database.
+
+Fields used:
+- title       -> Movie.title
+- release_date -> Movie.releaseDate
+- tagline     -> Movie.tagline
+- genres      -> Genre.name and MovieGenre join table
+
+Fields ignored: budget, id, overview, production_companies, runtime
