@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>home page</title>
+    <title>Home</title>
     <link rel="stylesheet" th:href="@{/css/header.css}">
 </head>
+
 <body>
-    <div th:replace="~{fragments/header :: header}"></div>
-    <div>you are on the home page :]</div>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="home-content">
+
+    <h1>Welcome to Name'm Movies</h1>
+
+    <p>Discover movies, genres, and reviews.</p>
+
+</div>
+
 </body>
 </html>
