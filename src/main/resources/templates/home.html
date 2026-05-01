@@ -2,18 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+
     <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
 
-<div class="home-content">
+<div class="home-container">
 
-    <h1>Welcome to Name'm Movies</h1>
+    <h1 class="section-title">Popular Movies</h1>
 
-    <p>Discover movies, genres, and reviews.</p>
+    <div class="movie-grid">
+
+        <!-- Card 1 -->
+        <div class="movie-card">
+            <img src="https://via.placeholder.com/300x450" alt="Movie">
+            <div class="movie-title">Avatar</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="movie-card">
+            <img src="https://via.placeholder.com/300x450" alt="Movie">
+            <div class="movie-title">Inception</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="movie-card">
+            <img src="https://via.placeholder.com/300x450" alt="Movie">
+            <div class="movie-title">Interstellar</div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="movie-card">
+            <img src="https://via.placeholder.com/300x450" alt="Movie">
+            <div class="movie-title">The Dark Knight</div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="movie-card">
+            <img src="https://via.placeholder.com/300x450" alt="Movie">
+            <div class="movie-title">Titanic</div>
+        </div>
+
+    </div>
 
 </div>
 
