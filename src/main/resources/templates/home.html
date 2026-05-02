@@ -1,55 +1,171 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
-
+    <title>NAME'M MOVIES</title>
     <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #F7EDE2;
+            color: #481D24;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            margin-bottom: 25px;
+            color: #6b4b52;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(72, 29, 36, 0.15);
+            border-top: 4px solid #FFC857;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(72, 29, 36, 0.25);
+            cursor: pointer;
+        }
+
+        .movie-card h2 {
+            font-size: 20px;
+            margin-top: 0;
+            color: #481D24;
+        }
+
+        .tagline {
+            font-style: italic;
+            color: #6b4b52;
+        }
+
+        .meta {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .rating {
+            font-weight: bold;
+            color: #C5283D;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 40px;
+            padding-bottom: 30px;
+        }
+
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .pagination a {
+            background: #481D24;
+            color: #FFC857;
+            transition: background 0.15s ease;
+        }
+
+        .pagination a:hover {
+            background: #C5283D;
+        }
+
+        .pagination span.disabled {
+            background: #ddd;
+            color: #aaa;
+            cursor: default;
+        }
+
+        .pagination .page-info {
+            color: #481D24;
+            background: none;
+            font-size: 14px;
+        }
+    </style>
 </head>
-
 <body>
-
 <div th:replace="~{fragments/header :: header}"></div>
 
-<div class="home-container">
+<div class="container">
+    <h1>Welcome to NAME'M MOVIES</h1>
 
-    <h1 class="section-title">Popular Movies</h1>
+    <p class="subtitle" th:if="${username != null}">
+        Logged in as <strong th:text="${username}"></strong>
+    </p>
+
+    <p class="subtitle" th:if="${username == null}">
+        Browse movies from the database.
+    </p>
 
     <div class="movie-grid">
+        <a class="movie-card"
+            th:each="movie : ${movies}"
+            th:href="@{/movie(id=${movie.movieID})}">
 
-        <!-- Card 1 -->
-        <div class="movie-card">
-            <img src="https://via.placeholder.com/300x450" alt="Movie">
-            <div class="movie-title">Avatar</div>
-        </div>
+            <h2 th:text="${movie.title}">Movie Title</h2>
 
-        <!-- Card 2 -->
-        <div class="movie-card">
-            <img src="https://via.placeholder.com/300x450" alt="Movie">
-            <div class="movie-title">Inception</div>
-        </div>
+            <p class="tagline" th:if="${movie.tagline != null}" th:text="${movie.tagline}">
+                Movie tagline
+            </p>
 
-        <!-- Card 3 -->
-        <div class="movie-card">
-            <img src="https://via.placeholder.com/300x450" alt="Movie">
-            <div class="movie-title">Interstellar</div>
-        </div>
+            <p class="meta">
+                <strong>Release Date:</strong>
+                <span th:text="${movie.releaseDate}">2000-01-01</span>
+            </p>
 
-        <!-- Card 4 -->
-        <div class="movie-card">
-            <img src="https://via.placeholder.com/300x450" alt="Movie">
-            <div class="movie-title">The Dark Knight</div>
-        </div>
+            <p class="meta">
+                <strong>Genres:</strong>
+                <span th:text="${movie.genres != null ? movie.genres : 'No genres listed'}"></span>
+            </p>
 
-        <!-- Card 5 -->
-        <div class="movie-card">
-            <img src="https://via.placeholder.com/300x450" alt="Movie">
-            <div class="movie-title">Titanic</div>
-        </div>
-
+            <p class="meta rating">
+                Rating:
+                <span th:text="${movie.avgRating != null ? movie.avgRating + '/10' : 'No reviews yet'}"></span>
+            </p>
+        </a>
     </div>
 
-</div>
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <a th:if="${hasPrev}" th:href="@{/home(page=${currentPage - 1})}">&larr; Previous</a>
+        <span th:if="${!hasPrev}" class="disabled">&larr; Previous</span>
 
+        <span class="page-info"
+              th:text="'Page ' + ${currentPage + 1} + ' of ' + ${totalPages}">
+            Page 1 of 1
+        </span>
+
+        <a th:if="${hasNext}" th:href="@{/home(page=${currentPage + 1})}">Next &rarr;</a>
+        <span th:if="${!hasNext}" class="disabled">Next &rarr;</span>
+    </div>
+</div>
 </body>
 </html>

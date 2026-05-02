@@ -1,0 +1,54 @@
+Performance and Indexing
+========================
+
+TODO: Complete this file after the app is fully built and the database is
+populated. Steps are outlined below.
+
+
+Indexes to Create
+-----------------
+Run these in MySQL after loading data.sql:
+
+-- Index 1: Speed up review lookups by movie (used on movie detail page)
+CREATE INDEX idx_review_movieID ON Review(movieID);
+
+-- Index 2: Speed up movie lookups by genre (used on genre page)
+CREATE INDEX idx_moviegenre_genreID ON MovieGenre(genreID);
+
+
+Affected Queries
+----------------
+Query 1 (affected by idx_review_movieID):
+  SELECT u.username, r.rating, r.comment, r.date
+  FROM Review r
+  JOIN User u ON r.userID = u.userID
+  WHERE r.movieID = ?
+  Page: /movies/{id}
+
+Query 2 (affected by idx_moviegenre_genreID):
+  SELECT m.movieID, m.title, m.releaseDate
+  FROM Movie m
+  JOIN MovieGenre mg ON m.movieID = mg.movieID
+  WHERE mg.genreID = ?
+  Page: /genres/{id}
+
+
+TODO: Timing Before and After Indexes
+--------------------------------------
+For each query above, run the following in MySQL before and after adding the
+index and record the execution time shown at the bottom of the result.
+
+Use this to measure:
+  EXPLAIN ANALYZE SELECT ...
+
+Or check query time in MySQL Workbench at the bottom of the results panel.
+
+Format to fill in:
+
+Query 1 - Review lookup by movieID:
+  Before index: _____ ms
+  After index:  _____ ms
+
+Query 2 - Movie lookup by genreID:
+  Before index: _____ ms
+  After index:  _____ ms

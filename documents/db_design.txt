@@ -1,0 +1,82 @@
+DB Design Report
+================
+
+
+1. ER Model
+-----------
+***See prelim.txt for the PlantUML ER diagram.***
+
+Entities: User, Movie, Genre, Review
+Relationships:
+- User WRITES Review (one-to-many)
+- Movie HAS Review (one-to-many)
+- Movie and Genre are linked via MovieGenre (many-to-many)
+
+
+2. ER to Relations
+------------------
+Converting the ER model to relational tables:
+
+User(userID, username, password_hash)
+Movie(movieID, title, releaseDate, tagline)
+Genre(genreID, name, description)
+MovieGenre(movieID, genreID)          <- junction table for many-to-many
+Review(reviewID, rating, comment, date, userID, movieID)
+
+
+3. Functional Dependencies
+--------------------------
+User:
+  userID -> username, password_hash
+  username -> userID, password_hash   (username is unique)
+
+Movie:
+  movieID -> title, releaseDate, tagline
+
+Genre:
+  genreID -> name, description
+  name -> genreID, description        (name is unique)
+
+MovieGenre:
+  (movieID, genreID) -> (no non-key attributes)
+
+Review:
+  reviewID -> rating, comment, date, userID, movieID
+
+
+4. Normalization
+----------------
+Starting wide table (all attributes together):
+  MovieReview(reviewID, rating, comment, date,
+              userID, username, password_hash,
+              movieID, title, releaseDate, tagline,
+              genreID, genreName, genreDescription)
+
+Step 1 - Remove partial dependencies (to reach 2NF):
+  username and password_hash depend only on userID, not the full key.
+  title, releaseDate, tagline depend only on movieID.
+  genreName, genreDescription depend only on genreID.
+  -> Extract User, Movie, Genre tables.
+
+Step 2 - Remove transitive dependencies (to reach 3NF):
+  No transitive dependencies remain after step 1.
+  Each non-key attribute depends directly on the primary key of its table.
+
+Step 3 - Check BCNF:
+  All functional dependencies have a superkey on the left-hand side.
+  Tables are in BCNF.
+
+Final normalized tables:
+  User(userID, username, password_hash)
+  Movie(movieID, title, releaseDate, tagline)
+  Genre(genreID, name, description)
+  MovieGenre(movieID, genreID)
+  Review(reviewID, rating, comment, date, userID, movieID)
+
+
+5. ER Model vs Normalization Comparison
+----------------------------------------
+Both approaches produced the same five tables. The ER model captured the
+many-to-many relationship between Movie and Genre naturally via the MovieGenre
+junction table, which normalization also requires to avoid repeating genre data
+per movie row. No conflicts between the two approaches — we use this schema.

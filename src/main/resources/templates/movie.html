@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${movie.title + ' - NAMEM MOVIES'}">Movie</title>
+    <link rel="stylesheet" th:href="@{/css/movie.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #F7EDE2;
+            color: #481D24;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #C5283D;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .movie-header {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 4px 14px rgba(72, 29, 36, 0.15);
+            border-top: 5px solid #FFC857;
+            margin-bottom: 30px;
+        }
+
+        .movie-header h1 {
+            margin: 0 0 6px 0;
+            font-size: 28px;
+        }
+
+        .tagline {
+            font-style: italic;
+            color: #6b4b52;
+            margin: 0 0 16px 0;
+            font-size: 16px;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 15px;
+        }
+
+        .avg-rating {
+            font-size: 22px;
+            font-weight: bold;
+            color: #C5283D;
+            margin-top: 14px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 14px;
+            border-bottom: 2px solid #FFC857;
+            padding-bottom: 6px;
+        }
+
+        .reviews-section {
+            margin-bottom: 30px;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 8px rgba(72, 29, 36, 0.1);
+            border-left: 4px solid #FFC857;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .review-user {
+            font-weight: bold;
+            color: #481D24;
+        }
+
+        .review-rating {
+            font-weight: bold;
+            color: #C5283D;
+            font-size: 15px;
+        }
+
+        .review-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .no-reviews {
+            color: #6b4b52;
+            font-style: italic;
+        }
+
+        .review-form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 14px rgba(72, 29, 36, 0.12);
+            border-top: 4px solid #C5283D;
+        }
+
+        .review-form-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            margin-top: 14px;
+            color: #481D24;
+        }
+
+        .review-form-section input[type="number"],
+        .review-form-section textarea {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .review-form-section textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 16px;
+            background: #481D24;
+            color: #FFC857;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #C5283D;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .login-prompt,
+        .already-reviewed {
+            color: #6b4b52;
+            font-style: italic;
+        }
+
+        .login-prompt a {
+            color: #C5283D;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container">
+
+    <a class="back-link" th:href="@{/home}">&larr; Back to Movies</a>
+
+    <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+    <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="movie-header">
+        <h1 th:text="${movie.title}">Movie Title</h1>
+
+        <p class="tagline"
+           th:if="${movie.tagline != null and !#strings.isEmpty(movie.tagline)}"
+           th:text="${movie.tagline}">
+            Movie tagline
+        </p>
+
+        <div class="meta-row">
+            <span>
+                <strong>Release Date:</strong>
+                <span th:text="${movie.releaseDate != null ? movie.releaseDate : 'Unknown'}">Unknown</span>
+            </span>
+
+            <span>
+                <strong>Genres:</strong>
+                <span th:text="${movie.genres != null ? movie.genres : 'No genres listed'}">No genres listed</span>
+            </span>
+
+            <span>
+                <strong>Reviews:</strong>
+                <span th:text="${movie.reviewCount}">0</span>
+            </span>
+        </div>
+
+        <div class="avg-rating">
+            <span th:if="${movie.avgRating != null}"
+                  th:text="'⭐ ' + ${movie.avgRating} + ' / 10'">
+                ⭐ 0 / 10
+            </span>
+
+            <span th:if="${movie.avgRating == null}">
+                No ratings yet
+            </span>
+        </div>
+    </div>
+
+    <div class="reviews-section">
+        <div class="section-title">Reviews</div>
+
+        <div th:if="${reviews == null or reviews.isEmpty()}" class="no-reviews">
+            No reviews yet — be the first to leave one!
+        </div>
+
+        <div class="review-card" th:each="review : ${reviews}">
+            <div class="review-header">
+                <span class="review-user" th:text="${review.username}">Username</span>
+                <span class="review-rating" th:text="${review.rating} + ' / 10'">10 / 10</span>
+            </div>
+
+            <div class="review-date" th:text="${review.date}">2024-01-01</div>
+
+            <div class="review-text"
+                 th:if="${review.comment != null and !#strings.isEmpty(review.comment)}"
+                 th:text="${review.comment}">
+                Review text
+            </div>
+        </div>
+    </div>
+
+    <div class="review-form-section">
+        <div class="section-title">Leave a Review</div>
+
+        <p class="login-prompt" th:if="${username == null}">
+            <a th:href="@{/login}">Log in</a> to leave a review.
+        </p>
+
+        <p class="already-reviewed" th:if="${username != null and alreadyReviewed}">
+            You have already reviewed this movie.
+        </p>
+
+        <form th:if="${username != null and !alreadyReviewed}"
+              th:action="@{'/movie/' + ${movie.movieID} + '/review'}"
+              method="post">
+
+            <input type="hidden"
+                   th:if="${_csrf != null}"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}" />
+
+            <label for="rating">Rating (1–10)</label>
+            <input type="number"
+                   id="rating"
+                   name="rating"
+                   min="1"
+                   max="10"
+                   required
+                   placeholder="e.g. 8">
+
+            <label for="comment">Review (optional)</label>
+            <textarea id="comment"
+                      name="comment"
+                      placeholder="Write your thoughts about this movie..."></textarea>
+
+            <button class="submit-btn" type="submit">Submit Review</button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
