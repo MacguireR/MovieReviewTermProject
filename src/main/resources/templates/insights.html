@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Movie Insights - NAME'M MOVIES</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0B1F3A;
+            color: white;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 28px 20px 36px;
+        }
+
+        h1 {
+            margin: 0 0 8px 0;
+            color: #A7D8FF;
+        }
+
+        .subtitle {
+            margin: 0 0 20px 0;
+            color: #D0E9FF;
+        }
+
+        .sort-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .sort-link {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            background: #A7D8FF;
+            color: #0B1F3A;
+        }
+
+        .sort-link.active {
+            background: #4FC3F7;
+        }
+
+        .table-wrap {
+            background: #A7D8FF;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #0B1F3A;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 14px 16px;
+            background: #4FC3F7;
+            font-size: 14px;
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(11,31,58,0.15);
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: rgba(79,195,247,0.25);
+        }
+
+        .movie-link {
+            color: #0B1F3A;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .movie-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty {
+            margin-top: 14px;
+            color: #D0E9FF;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container">
+    <h1>Movie Insights</h1>
+
+    <p class="subtitle" th:if="${username != null}">
+        Logged in as <strong th:text="${username}"></strong>
+    </p>
+    <p class="subtitle" th:if="${username == null}">
+        Ranked movies based on ratings and review activity.
+    </p>
+
+    <div class="sort-row">
+        <a th:href="@{/insights(sort='rating')}"
+           class="sort-link"
+           th:classappend="${sort == 'rating'} ? ' active' : ''">
+            Top Rated
+        </a>
+
+        <a th:href="@{/insights(sort='reviews')}"
+           class="sort-link"
+           th:classappend="${sort == 'reviews'} ? ' active' : ''">
+            Most Reviewed
+        </a>
+    </div>
+
+    <div class="table-wrap" th:if="${movies != null and !#lists.isEmpty(movies)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Avg Rating</th>
+                <th>Review Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie : ${movies}">
+                <td>
+                    <a class="movie-link" th:href="@{/movie(id=${movie.movieID})}" th:text="${movie.title}">Movie Title</a>
+                </td>
+                <td th:text="${movie.avgRating != null ? movie.avgRating : 'No reviews yet'}">0.0</td>
+                <td th:text="${movie.reviewCount}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="empty" th:if="${movies == null or #lists.isEmpty(movies)}">No results found.</p>
+</div>
+
+</body>
+</html>
