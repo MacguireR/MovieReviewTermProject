@@ -7,8 +7,8 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #F7EDE2;
-            color: #481D24;
+            background: #0B1F3A; /* navy */
+            color: white;
         }
 
         .container {
@@ -17,59 +17,63 @@
 
         h1 {
             margin-bottom: 5px;
+            color: #A7D8FF;
         }
 
         .subtitle {
             margin-bottom: 25px;
-            color: #6b4b52;
+            color: #D0E9FF;
         }
 
+        /* === MOVIE GRID === */
         .movie-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
+        /* === MOVIE CARD === */
         .movie-card {
-            background: white;
+            background: #A7D8FF;           /* light blue card */
             border-radius: 10px;
             padding: 18px;
-            box-shadow: 0 4px 12px rgba(72, 29, 36, 0.15);
-            border-top: 4px solid #FFC857;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            border-top: 4px solid #4FC3F7; /* bright accent */
             text-decoration: none;
-            color: inherit;
+            color: #0B1F3A;                /* navy text */
             display: block;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
 
         .movie-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(72, 29, 36, 0.25);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
             cursor: pointer;
         }
 
         .movie-card h2 {
             font-size: 20px;
             margin-top: 0;
-            color: #481D24;
+            color: #0B1F3A;
         }
 
         .tagline {
             font-style: italic;
-            color: #6b4b52;
+            color: #06335E;
         }
 
         .meta {
             font-size: 14px;
             margin-top: 10px;
+            color: #0B1F3A;
         }
 
         .rating {
             font-weight: bold;
-            color: #C5283D;
+            color: #004C99;
         }
 
-        /* Pagination */
+        /* === PAGINATION === */
         .pagination {
             display: flex;
             align-items: center;
@@ -89,28 +93,29 @@
         }
 
         .pagination a {
-            background: #481D24;
-            color: #FFC857;
+            background: #A7D8FF;
+            color: #0B1F3A;
             transition: background 0.15s ease;
         }
 
         .pagination a:hover {
-            background: #C5283D;
+            background: #4FC3F7;
         }
 
         .pagination span.disabled {
-            background: #ddd;
-            color: #aaa;
+            background: #4F5B6E;
+            color: #B7C5D4;
             cursor: default;
         }
 
         .pagination .page-info {
-            color: #481D24;
+            color: #A7D8FF;
             background: none;
             font-size: 14px;
         }
     </style>
 </head>
+
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
@@ -127,8 +132,8 @@
 
     <div class="movie-grid">
         <a class="movie-card"
-            th:each="movie : ${movies}"
-            th:href="@{/movie(id=${movie.movieID})}">
+           th:each="movie : ${movies}"
+           th:href="@{/movie(id=${movie.movieID})}">
 
             <h2 th:text="${movie.title}">Movie Title</h2>
 
@@ -150,6 +155,7 @@
                 Rating:
                 <span th:text="${movie.avgRating != null ? movie.avgRating + '/10' : 'No reviews yet'}"></span>
             </p>
+
         </a>
     </div>
 
