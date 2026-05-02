@@ -1,0 +1,64 @@
+body {
+    background: #0B1F3A; /* navy */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* CONTAINER */
+.genre-container {
+    padding: 40px;
+    color: white;
+    text-align: center;
+}
+
+.genre-title {
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+/* GRID */
+.genre-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 26px;
+    padding: 0 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* GENRE CARD */
+.genre-card {
+    background: #A7D8FF; /* light blue */
+    color: #0B1F3A;      /* navy text */
+    padding: 25px 10px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+            transform 0.25s ease,
+            background 0.25s ease,
+            box-shadow 0.25s ease;
+}
+
+.genre-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    background: #BEE6FF; /* slightly brighter */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* LINKS (remove underline, maintain card behavior) */
+.genre-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+}

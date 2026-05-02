@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title th:text="${genre.name}">Genre</title>
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+<h1 th:text="${genre.name}"></h1>
+
+<div th:if="${movies.size() == 0}">
+  <p>No movies found in this genre.</p>
+</div>
+
+<div class="movie-list">
+  <ul>
+    <li th:each="m : ${movies}">
+      <a th:href="@{/movie(id=${m.movieID})}">
+        <strong th:text="${m.title}"></strong>
+        <span th:if="${m.tagline}" th:text="' - ' + ${m.tagline}"></span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>

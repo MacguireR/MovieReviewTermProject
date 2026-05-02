@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Genres</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+<h1>Browse Genres</h1>
+
+<div class="genre-list">
+    <ul>
+        <li th:each="g : ${genres}">
+            <a th:href="@{/genre(id=${g.genreID})}">
+                <span th:text="${g.name}"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
