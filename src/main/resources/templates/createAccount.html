@@ -2,87 +2,124 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create Account</title>
+
     <style>
-        h2 {
-            color: red;
-        }
-        p {
-            color: white;
-        }
-        a {
-            color: white;
-        }
         body {
-            font-family: Arial;
-            background: #F7EDE2;
+            font-family: Arial, sans-serif;
+            background: #0B1F3A; /* navy */
             display: flex;
             justify-content: center;
-            margin-top: 100px;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .login-box {
-            background: #FFFFFF;
+
+        .account-box {
+            background: #A7D8FF; /* light blue */
             padding: 30px;
-            width: 300px;
-            border-radius: 8px;
-            box-shadow: 0 12 30px rgba(72,29,36,0.18);
-            box-shadow: 0 2 8px rgba(72,29,36,0.12);
-            border-top: 4px solid #FFC857;
+            width: 320px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-top: 4px solid #4FC3F7;
         }
-        h2{
-            color: #481D24
+
+        h2 {
+            margin-top: 0;
+            color: #0B1F3A;
+            text-align: center;
+            margin-bottom: 20px;
         }
+
         input {
             width: 100%;
-            width: 276px;
+            box-sizing: border-box;
             padding: 10px;
             margin-top: 10px;
             margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
             outline: none;
         }
+
         input:focus {
-            border-color: #255F85;
-            box-shadow: 0 0 0 3px rgba(37,95,133,0.2);
+            box-shadow: 0 0 0 3px rgba(79,195,247,0.4);
         }
+
         button {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
-            background: #C5283D;
-            color: #FFFFFF;
+            background: #0B1F3A;
+            color: white;
             border: none;
             border-radius: 6px;
-            cursor:pointer;
-            transition: 0.2 ease;
+            cursor: pointer;
+            transition: 0.2s ease;
         }
+
         button:hover {
-            background: #E9724C;
+            background: #163A5F;
         }
+
         p {
-            color:#481D24;
             font-size: 14px;
+            color: #0B1F3A;
+            margin-top: 12px;
+            text-align: center;
         }
+
         a {
-            color: #255F85;
+            color: #0B1F3A;
+            font-weight: bold;
             text-decoration: none;
+        }
+
+        a:hover {
+            color: #4FC3F7;
+        }
+
+        .msg {
+            color: green;
             font-weight: bold;
         }
-        a:hover {
-            color: #E9724C
+
+        .err {
+            color: #B00020;
+            font-weight: bold;
         }
-        .msg {color:green;}
-        .err{color:red;}
     </style>
 </head>
+
 <body>
-    <div class="login-box">
-        <h2>Create Account</h2>
-        <p class="msg" th:if="${param.created}">Account is created <a href="/login">Log in</a></p>
-        <p class="err" th:if="${param.error}">That username is already in use </p>
-        <form th:action="@{/createAccount}" method="post">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" recquired>
-            <button type="submit">Continue</button>
-        </form>
-    </div>
+
+<div class="account-box">
+
+    <h2>Create Account</h2>
+
+    <p class="msg" th:if="${param.created}">
+        Account created successfully.
+        <a href="/login">Log in</a>
+    </p>
+
+    <p class="err" th:if="${param.error}">
+        That username is already in use.
+    </p>
+
+    <form th:action="@{/createAccount}" method="post">
+
+        <input type="text" name="username" placeholder="Username" required>
+
+        <input type="password" name="password" placeholder="Password" required>
+
+        <button type="submit">Create Account</button>
+
+    </form>
+
+    <p>
+        Already have an account?
+        <a href="/login">Log In</a>
+    </p>
+
+</div>
+
 </body>
 </html>

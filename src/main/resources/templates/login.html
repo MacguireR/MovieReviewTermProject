@@ -3,71 +3,76 @@
 <head>
     <title>Login</title>
     <style>
-        h2 {
-            color: red;
-        }
-        p {
-            color: white;
-        }
-        a {
-            color: white;
-        }
         body {
-            font-family: Arial;
-            background: #F7EDE2;
+            font-family: Arial, sans-serif;
+            background: #0B1F3A; /* navy */
             display: flex;
             justify-content: center;
-            margin-top: 100px;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
+
+        /* LOGIN BOX */
         .login-box {
-            background: #FFFFFF;
+            background: #A7D8FF; /* light blue */
             padding: 30px;
-            width: 300px;
-            border-radius: 8px;
-            box-shadow: 0 12 30px rgba(72,29,36,0.18);
-            box-shadow: 0 2 8px rgba(72,29,36,0.12);
-            border-top: 4px solid #FFC857;
+            width: 320px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-top: 4px solid #4FC3F7;
         }
-        h2{
-            color: #481D24
+
+        /* TITLE */
+        h2 {
+            color: #0B1F3A;
+            margin-bottom: 20px;
         }
+
+        /* INPUTS */
         input {
             width: 100%;
-            width: 276px;
             padding: 10px;
             margin-top: 10px;
             margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
             outline: none;
         }
+
         input:focus {
-            border-color: #255F85;
-            box-shadow: 0 0 0 3px rgba(37,95,133,0.2);
+            box-shadow: 0 0 0 3px rgba(79,195,247,0.4);
         }
+
+        /* BUTTON */
         button {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
-            background: #C5283D;
-            color: #FFFFFF;
+            background: #0B1F3A;
+            color: white;
             border: none;
             border-radius: 6px;
-            cursor:pointer;
-            transition: 0.2 ease;
+            cursor: pointer;
+            transition: 0.2s ease;
         }
+
         button:hover {
-            background: #E9724C;
+            background: #163A5F;
         }
+
         p {
-            color:#481D24;
             font-size: 14px;
+            color: #0B1F3A;
         }
+
         a {
-            color: #255F85;
-            text-decoration: none;
+            color: #0B1F3A;
             font-weight: bold;
+            text-decoration: none;
         }
+
         a:hover {
-            color: #E9724C
+            color: #4FC3F7;
         }
     </style>
 </head>

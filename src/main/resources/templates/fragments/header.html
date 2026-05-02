@@ -1,25 +1,27 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Header</title>
-</head>
 <div th:fragment="header">
-    <header>
+    <header class="header">
+
         <div class="main">
             NAME'M MOVIES
         </div>
-        <nav>
-        <th:block th:if="${username != null}">
-            <a href="/home" class = "active">Home</a>
-            <a href="/genres">Genres</a>
-             <a href="/logout">Log Out</a>
-        </th:block>
-        <th:block th:if="${username == null}">
-            <a href="/home" class = "active">Home</a>
-            <a href="/login">Log In</a>
-        </th:block>
+
+        <nav class="nav">
+
+            <a href="/home">Home</a>
+
+            <th:block th:if="${username != null}">
+                <a href="/genres">Genres</a>
+                <a href="/logout">Log Out</a>
+            </th:block>
+
+            <th:block th:if="${username == null}">
+                <a href="/login">Log In</a>
+                <a href="/signup">Create Account</a>
+            </th:block>
+
         </nav>
+
     </header>
-<div class = "header-accent"></div>
+
+    <div class="header-accent"></div>
 </div>
-</html>
