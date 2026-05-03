@@ -65,7 +65,7 @@ public class MovieController {
                 r.date,
                 u.username
             FROM Review r
-            JOIN users u ON r.userID = u.userID
+            JOIN User u ON r.userID = u.userID
             WHERE r.movieID = ?
             ORDER BY r.date DESC
         """;
@@ -79,7 +79,7 @@ public class MovieController {
             String checkSql = """
                 SELECT COUNT(*)
                 FROM Review r
-                JOIN users u ON r.userID = u.userID
+                JOIN User u ON r.userID = u.userID
                 WHERE r.movieID = ? AND u.username = ?
             """;
 
@@ -114,7 +114,7 @@ public class MovieController {
             return "redirect:/movie?id=" + id;
         }
 
-        String userIdSql = "SELECT userID FROM users WHERE username = ?";
+        String userIdSql = "SELECT userID FROM User WHERE username = ?";
         List<Map<String, Object>> userResult = jdbcTemplate.queryForList(userIdSql, username);
 
         if (userResult.isEmpty()) {

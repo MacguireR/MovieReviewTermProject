@@ -28,7 +28,7 @@ public class LoginController {
         @RequestParam String username,
         @RequestParam String password,
         Model model, HttpSession session) {
-            String sql = "SELECT password_hash FROM users WHERE username = ?";
+            String sql = "SELECT password_hash FROM User WHERE username = ?";
             try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)

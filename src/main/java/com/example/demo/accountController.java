@@ -23,7 +23,7 @@ public class accountController {
         String hashed = passwordEncoder.encode(password);
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO users (username, password_hash) VALUES (?, ?)"
+                "INSERT INTO User (username, password_hash) VALUES (?, ?)"
             );
             stmt.setString(1, username);
             stmt.setString(2, hashed);
