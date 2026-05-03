@@ -162,7 +162,7 @@ Minimum: 3 queries with aggregation or joins
 - [ ] Ensure Movie table has 1000+ rows
 
 ### 2. Fix Auth
-- [ ] Handle duplicate username gracefully in `accountController`
+- [X] Handle duplicate username gracefully in `accountController`
 
 ### 3. Backend — Movies & Genres
 - [ ] `GenreController`: GET `/genres`, GET `/genres/{id}`

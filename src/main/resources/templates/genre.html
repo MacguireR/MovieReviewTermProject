@@ -1,26 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title th:text="${genre.name}">Genre</title>
-  <link rel="stylesheet" href="/css/home.css">
+    <title th:text="${genre.name} + ' - NAME\'M MOVIES'">Genre</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0B1F3A;
+            color: white;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #A7D8FF;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        h1 {
+            color: #A7D8FF;
+            margin-bottom: 24px;
+        }
+
+        .empty {
+            color: #D0E9FF;
+            font-style: italic;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card {
+            background: #A7D8FF;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            border-top: 4px solid #4FC3F7;
+            text-decoration: none;
+            color: #0B1F3A;
+            display: block;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        }
+
+        .movie-card h2 {
+            font-size: 18px;
+            margin: 0 0 6px 0;
+            color: #0B1F3A;
+        }
+
+        .tagline {
+            font-style: italic;
+            font-size: 13px;
+            color: #06335E;
+        }
+    </style>
 </head>
 <body>
 
-<h1 th:text="${genre.name}"></h1>
+<div th:replace="~{fragments/header :: header}"></div>
 
-<div th:if="${movies.size() == 0}">
-  <p>No movies found in this genre.</p>
-</div>
+<div class="container">
+    <a class="back-link" href="/genres">&larr; Back to Genres</a>
 
-<div class="movie-list">
-  <ul>
-    <li th:each="m : ${movies}">
-      <a th:href="@{/movie(id=${m.movieID})}">
-        <strong th:text="${m.title}"></strong>
-        <span th:if="${m.tagline}" th:text="' - ' + ${m.tagline}"></span>
-      </a>
-    </li>
-  </ul>
+    <h1 th:text="${genre.name}">Genre Name</h1>
+
+    <p class="empty" th:if="${movies == null or movies.isEmpty()}">
+        No movies found in this genre.
+    </p>
+
+    <div class="movie-grid" th:if="${movies != null and !movies.isEmpty()}">
+        <a class="movie-card"
+           th:each="m : ${movies}"
+           th:href="@{/movie(id=${m.movieID})}">
+            <h2 th:text="${m.title}">Title</h2>
+            <p class="tagline"
+               th:if="${m.tagline != null and !#strings.isEmpty(m.tagline)}"
+               th:text="${m.tagline}">Tagline</p>
+        </a>
+    </div>
 </div>
 
 </body>

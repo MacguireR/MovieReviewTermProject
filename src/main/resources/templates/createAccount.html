@@ -104,6 +104,10 @@
         That username is already in use.
     </p>
 
+    <p class="err" th:if="${param.dberror}">
+        Could not create account right now. Please try again.
+    </p>
+
     <form th:action="@{/createAccount}" method="post">
 
         <input type="text" name="username" placeholder="Username" required>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Controller
 public class accountController {
@@ -22,15 +23,17 @@ public class accountController {
     public String createAccount(@RequestParam String username, @RequestParam String password) {
         String hashed = passwordEncoder.encode(password);
         try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO User (username, password_hash) VALUES (?, ?)"
-            );
-            stmt.setString(1, username);
-            stmt.setString(2, hashed);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+            try (PreparedStatement stmt = conn.prepareStatement(
+                    "INSERT INTO users (username, password_hash) VALUES (?, ?)"
+            )) {
+                stmt.setString(1, username.trim());
+                stmt.setString(2, hashed);
+                stmt.executeUpdate();
+            }
+        } catch (SQLIntegrityConstraintViolationException e) {
             return "redirect:/createAccount?error";
+        } catch (Exception e) {
+            return "redirect:/createAccount?dberror";
         }
         return "redirect:/login?created";
     }
