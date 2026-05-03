@@ -107,8 +107,12 @@ CREATE TABLE Review (
    mysql -h 127.0.0.1 -P 33306 -u appuser -p demodb < src/main/resources/data.sql
    ```
    Password: `apppass`
-4. Start the app: `./mvnw spring-boot:run`
-5. Open `http://localhost:8080/login`
+4. Apply performance indexes (first time only):
+   ```bash
+   cat src/main/resources/indexes.sql | docker exec -i moviereview-mysql mysql -uappuser -papppass demodb
+   ```
+5. Start the app: `./mvnw spring-boot:run`
+6. Open `http://localhost:8080/login`
 
 ---
 
@@ -121,7 +125,7 @@ o = in progress, needs to be finished
 - [X] `data.sql` — all INSERT statements to populate the demo database
 - [o] `datasource.txt` — description and link to the TMDB dataset
 - [o] `queries.sql` — all SQL queries used in the app with comments and URL paths
-- [o] `perf.txt` — index creation statements, affected queries, timing before/after
+- [X] `perf.txt` — index creation statements, affected queries, timing before/after
 - [o] `security.txt` — description of BCrypt password hashing approach
 - [ ] Demo video
 - [ ] Working code
@@ -139,10 +143,14 @@ Minimum: 3 queries with aggregation or joins
 |---|-------|------|--------------|------|
 | 1 | SELECT user by username (login) | retrieval | | /login |
 | 2 | INSERT new user (registration) | insertion | | /createAccount |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
-| 6 | | | | |
+| 3 | SELECT all genres | retrieval | | /genres |
+| 4 | SELECT movies by genre (JOIN MovieGenre) | retrieval | JOIN | /genres/{id} |
+| 5 | SELECT reviews + username for a movie (JOIN users) | retrieval | JOIN | /movies/{id} |
+| 6 | SELECT AVG(rating) for a movie | retrieval | AGG | /movies/{id} |
+| 7 | INSERT new review | insertion | | /movies/{id} |
+| 8 | SELECT top movies by AVG(rating) + COUNT(reviews) | retrieval | JOIN + AGG | /insights |
+
+**Aggregation/Join queries:** #4 (JOIN), #5 (JOIN), #6 (AVG aggregate), #8 (LEFT JOIN + AVG + COUNT)
 
 ---
 
@@ -169,11 +177,12 @@ Minimum: 3 queries with aggregation or joins
 - [ ] Home page (exists)
 - [ ] Genre list page `/genres`
 - [ ] Movie list page `/movies`
-- [ ] Movie detail + reviews page `/movies/{id}`
-
+- [ ] Movie detail + reviews page `/movies/{id}`- [X] Insights page `/insights` (top movies by avg rating or review count)
 ### 6. Required Deliverable Files
-- [ ] Write `queries.sql` with all queries + comments
-- [ ] Write `perf.txt` (add 2+ indexes, measure query time before/after)
+- [X] Write `queries.sql` with all queries + comments
+- [X] Write `perf.txt` (add 2+ indexes, measure query time before/after)
+  - Indexes: `idx_review_movieid`, `idx_review_movieid_rating` on Review table
+  - Insights query: 79.9 ms → 9.05 ms (~88% faster)
 - [ ] Write `security.txt`
 - [ ] Write `datasource.txt`
 - [ ] Write `db_design.pdf` (ER model + normalization)

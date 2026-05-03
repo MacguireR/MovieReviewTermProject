@@ -33,22 +33,28 @@ Query 2 (affected by idx_moviegenre_genreID):
   Page: /genres/{id}
 
 
-TODO: Timing Before and After Indexes
---------------------------------------
-For each query above, run the following in MySQL before and after adding the
-index and record the execution time shown at the bottom of the result.
+Timing Results - Insights Page Query (EXPLAIN ANALYZE)
+-------------------------------------------------------
+Query measured:
+  SELECT m.movieID, m.title,
+         AVG(r.rating) AS avgRating,
+         COUNT(r.reviewID) AS reviewCount
+  FROM Movie m
+  LEFT JOIN Review r ON m.movieID = r.movieID
+  GROUP BY m.movieID, m.title
+  ORDER BY avgRating DESC
+  LIMIT 100;
 
-Use this to measure:
-  EXPLAIN ANALYZE SELECT ...
+  Before indexes: 79.9 ms
+  After indexes:  9.05 ms
+  Improvement:    ~88% faster
 
-Or check query time in MySQL Workbench at the bottom of the results panel.
+Indexes applied (see indexes.sql):
+  CREATE INDEX idx_review_movieid ON Review(movieID);
+  CREATE INDEX idx_review_movieid_rating ON Review(movieID, rating);
 
-Format to fill in:
-
-Query 1 - Review lookup by movieID:
-  Before index: _____ ms
-  After index:  _____ ms
-
-Query 2 - Movie lookup by genreID:
-  Before index: _____ ms
-  After index:  _____ ms
+Optimizer behavior change:
+  Before: Left hash join with full table scans on both Movie and Review
+  After:  Nested loop left join using covering index lookup on
+          idx_review_movieid_rating — index satisfied AVG(rating) and
+          COUNT without touching the base table rows
