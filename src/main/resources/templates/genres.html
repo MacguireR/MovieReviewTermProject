@@ -1,21 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Genres</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <title>Genres - NAME'M MOVIES</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0B1F3A;
+            color: white;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #A7D8FF;
+            margin-bottom: 24px;
+        }
+
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .genre-card {
+            background: #A7D8FF;
+            border-radius: 10px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            border-top: 4px solid #4FC3F7;
+            text-decoration: none;
+            color: #0B1F3A;
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .genre-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        }
+    </style>
 </head>
 <body>
 
-<h1>Browse Genres</h1>
+<div th:replace="~{fragments/header :: header}"></div>
 
-<div class="genre-list">
-    <ul>
-        <li th:each="g : ${genres}">
-            <a th:href="@{/genre(id=${g.genreID})}">
-                <span th:text="${g.name}"></span>
-            </a>
-        </li>
-    </ul>
+<div class="container">
+    <h1>Browse Genres</h1>
+
+    <div class="genre-grid">
+        <a class="genre-card"
+           th:each="g : ${genres}"
+           th:href="@{/genre(id=${g.genreID})}"
+           th:text="${g.name}">
+        </a>
+    </div>
 </div>
 
 </body>
