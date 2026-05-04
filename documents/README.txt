@@ -7,10 +7,15 @@ Group: 12
 ## Team Members
 
 - Evan
+ - set up the database schema, SQL data files, and all project documentation (prelim, db_design, datasource, security, README)
 - Macguire
+ -  implemented authentication and user sessions, fixed the frontend, and resolved the users/User table naming bug
 - Nate
+ -  built the movie detail page and MovieController (including review submission), expanded the home page with movie browsing and review functionality, and contributed to the hashing utility.
 - McKayla
+ - built the home, login, and create account pages, developed the genre controller and genre UI, and handled frontend styling
 - Adam
+ - built the insights page, fixed account creation error handling, added indexes, and documented queries and performance results
 
 ---
 
